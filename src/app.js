@@ -1,6 +1,8 @@
 const express = require('express');
 const dotenv =  require('dotenv');
 dotenv.config();
+const cors = require('cors');  
+app.use(cors());               
 const { router: urlRoutes, redirectUrl } = require('./routes/urls');
 const app = express();
 const db=require('./config/db');
