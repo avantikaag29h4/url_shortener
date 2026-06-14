@@ -1,13 +1,15 @@
 const express = require('express');
 const dotenv =  require('dotenv');
 dotenv.config();
-const cors = require('cors');  
-app.use(cors());               
+// const cors = require('cors');  
+// app.use(cors());               
 const { router: urlRoutes, redirectUrl } = require('./routes/urls');
 const app = express();
 const db=require('./config/db');
 const PORT = process.env.PORT||3000;
 app.use(express.json());
+const cors = require('cors');  
+app.use(cors()); 
 app.get('/:shortCode', redirectUrl);  
 app.use('/api/urls',urlRoutes);
 
