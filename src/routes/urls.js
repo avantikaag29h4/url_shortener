@@ -8,7 +8,7 @@ const {
 } = require('../controllers/controller');
 const authMiddleware = require('../middleware/authMiddleware');
 const validateUrl = require('../middleware/validateUrl');
-const authMiddleware = require('../middleware/authMiddleware');
+// const authMiddleware = require('../middleware/authMiddleware');
 
 router.post('/', authMiddleware, validateUrl, shortenUrl);
 router.get('/', authMiddleware, getAllUrls);
