@@ -6,11 +6,13 @@ const {
   getAllUrls,
   deleteUrl,
 } = require('../controllers/controller');
+const authMiddleware = require('../middleware/authMiddleware');
 const validateUrl = require('../middleware/validateUrl');
+const authMiddleware = require('../middleware/authMiddleware');
 
-router.post('/', validateUrl, shortenUrl);
-router.get('/', getAllUrls);
-router.delete('/:shortCode', deleteUrl);
+router.post('/', authMiddleware, validateUrl, shortenUrl);
+router.get('/', authMiddleware, getAllUrls);
+router.delete('/:shortCode', authMiddleware, deleteUrl);
 
 // Redirect route — this goes on the main app, not /api/urls
 // We'll export and register it separately
