@@ -43,17 +43,17 @@ try{
 
  const redirectUrl = async(req, res) =>{
     const {shortCode} = req.params;
-    const userId = req.user.userId;
+    // const userId = req.user.userId;
     try{
         const[rows] = await db.query(
-            'SELECT * FROM urls WHERE short_code = ? AND user_id = ? ',[shortCode,userId]
+            'SELECT * FROM urls WHERE short_code = ?',[shortCode]
         );
         if(rows.length === 0)
             return res.status(404).json({error: 'SHORT URLs not found'});
 
         //increment click_count
         await db.query(
-            'UPDATE urls SET click_count=click_count+1 WHERE short_code = ? AND user_id = ?',[shortCode, userId]
+            'UPDATE urls SET click_count=click_count+1 WHERE short_code = ?',[shortCode]
         );
         res.redirect(302, rows[0].original_url)
     }
