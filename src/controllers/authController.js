@@ -21,7 +21,7 @@ const register = async (req, res) => {
          //check username already exists
 
          const [existingUsername] = await db.query(
-            'SELECT * FROM users WHERE =?', [username]
+            'SELECT * FROM users WHERE username = ?', [username]
         );
         if(existingUsername.length > 0){
             return res.status(400).json({ error: 'Username already taken'});
@@ -32,7 +32,7 @@ const register = async (req, res) => {
         const hashedPassword = await bcrypt.hash(passoword, salt);
 
         // Save user to database
-        const[resut] = await db.query(
+        const [resut] = await db.query(
             'INSERT INTO users (name,username,email,password) VALUES (?,?,?,?)', [name, username, email, hashedPassword]
         );
          
