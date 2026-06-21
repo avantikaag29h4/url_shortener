@@ -58,11 +58,11 @@ const login = async (req, res) => {
     
     try{
         const[rows] = await db.query(
-            'SELECT * FROM users WHERE username = ?', [email]
+            'SELECT * FROM users WHERE username = ?', [username]
         );
         
         if(rows.length === 0)
-            return res.status(401).json({ error: 'Invalid email or password'});
+            return res.status(401).json({ error: 'Invalid username or password'});
 
         const user = rows[0];
 
