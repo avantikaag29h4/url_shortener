@@ -8,10 +8,12 @@ const app = express();
 const db=require('./config/db');
 const PORT = process.env.PORT||3000;
 app.use(express.json());
-const authRoutes = require('./routes/auth');
-app.use('/api/auth', authRoutes);
 const cors = require('cors');  
 app.use(cors()); 
+const authRoutes = require('./routes/auth');
+app.use('/api/auth', authRoutes);
+// const cors = require('cors');  
+// app.use(cors()); 
 app.get('/:shortCode', redirectUrl);  
 app.use('/api/urls',urlRoutes);
 
