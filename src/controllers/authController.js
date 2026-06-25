@@ -1,11 +1,13 @@
+require('dotenv').config();
 const db = require('../config/db');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
 const crypto = require('crypto');
 
-require('dotenv').config();
+// require('dotenv').config();
 const sgMail = require('@sendgrid/mail');
+console.log(process.env.SENDGRID_API_KEY);
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 //POST/api/auth/register
