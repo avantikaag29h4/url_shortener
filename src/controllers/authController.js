@@ -3,6 +3,9 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
 const crypto = require('crypto');
+const sgMail = require('@sendgrid/mail');
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+
 require('dotenv').config();
 
 //POST/api/auth/register
@@ -127,27 +130,22 @@ const forgotPassword = async(req, res) => {
         const resetLink = `${process.env.FRONTEND_URL}/reset-password?token=${resetToken}`;
 
     // Send email
-    const transporter = nodemailer.createTransport({
-      service: 'gmail',
-      auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS,
-      }
-    });
-
-    await transporter.sendMail({
-      from: process.env.EMAIL_USER,
-      to: user.email,
-      subject: 'Password Reset Request',
-      html: `
-        <h2>Password Reset</h2>
-        <p>Hi ${user.name},</p>
-        <p>You requested to reset your password. Click the link below:</p>
-        <a href="${resetLink}">Reset Password</a>
-        <p>This link expires in 1 hour.</p>
-        <p>If you didn't request this, ignore this email.</p>
-      `
-    });
+    // Send email
+    const msg = {
+    to: user.email,
+    from: process.env.EMAIL_USER,
+    subject: 'Password Reset Request',
+    html: `
+      <h2>Password Reset</h2>
+      <p>Hi ${user.name},</p>
+      <p>You requested to reset your password. Click the link below:</p>
+      <a href="${resetLink}">Reset Password</a>
+      <p>This link expires in 1 hour.</p>
+      <p>If you didn't request this, ignore this email.</p>
+    `
+  };
+  
+  await sgMail.send(msg);
 
     res.json({ message: 'If this email exists, a reset link has been sent' });
     }
