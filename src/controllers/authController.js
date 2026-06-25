@@ -1,3 +1,4 @@
+console.log("AUTH CONTROLLER LOADED");
 require('dotenv').config();
 const db = require('../config/db');
 const bcrypt = require('bcryptjs');
