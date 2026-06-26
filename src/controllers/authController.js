@@ -199,6 +199,25 @@ const forgotPassword = async(req, res) => {
           res.status(500).json({ error: 'Failed to reset password' });
         }
       };
-    
-module.exports = {register, login, forgotPassword, resetPassword};
+
+
+
+const deleteAccount = async (req,res) => {
+    const userId = req.user.userId;
+
+    try{
+        await db.query(
+            'DELETE FROM urls WHERE user_id = ? ',[userId]
+        );
+        await db.query(
+            'DELETE FROM users WHERE id = ? ',[userId]
+        );
+        return res.json({message: 'Account delete successfully'});
+    }
+    catch(err){
+        console.error(err);
+        res.status(500).json({err:'Failed to delete account'});
+    }
+};
+module.exports = {register, login, forgotPassword, resetPassword, deleteAccount};
 
